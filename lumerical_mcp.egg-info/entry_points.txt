@@ -1,0 +1,2 @@
+[console_scripts]
+lumerical-mcp = lumerical_mcp.server:main

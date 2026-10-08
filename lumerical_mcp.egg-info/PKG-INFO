@@ -1,0 +1,150 @@
+Metadata-Version: 2.4
+Name: lumerical-mcp
+Version: 0.1.0
+Summary: MCP server for Lumerical FDTD automation
+Author-email: Your Name <you@example.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: numpy
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# Lumerical MCP Server
+
+MCP (Model Context Protocol) server for controlling Lumerical FDTD simulations from LLMs.
+
+## Installation
+
+```bash
+cd lumerical-mcp
+pip install -e .
+```
+
+## Configuration
+
+### Required Environment Variable
+
+```bash
+# Windows (PowerShell)
+$env:LUMERICAL_ROOT = "D:\Program Files\ANSYS Inc\v251\Lumerical"
+
+# Windows (cmd)
+set LUMERICAL_ROOT=D:\Program Files\ANSYS Inc\v251\Lumerical
+
+# Linux/macOS
+export LUMERICAL_ROOT=/opt/lumerical/v251
+```
+
+### Optional Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MCP_HOST` | `127.0.0.1` | Server bind address |
+| `MCP_PORT` | `8000` | Server port |
+| `MCP_TRANSPORT` | `streamable-http` | Transport protocol (`streamable-http` or `stdio`) |
+| `MCP_WORK_DIR` | Current directory | Working directory for relative paths |
+| `MCP_LOG_LEVEL` | `INFO` | Log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
+
+### Config File (Optional)
+
+Create `~/.config/lumerical-mcp/config.json`:
+
+```json
+{
+  "MCP_HOST": "127.0.0.1",
+  "MCP_PORT": 8000,
+  "MCP_TRANSPORT": "streamable-http",
+  "MCP_WORK_DIR": "C:/Users/name/projects/lumerical",
+  "MCP_LOG_LEVEL": "INFO"
+}
+```
+
+Environment variables take precedence over config file.
+
+## Running the Server
+
+```bash
+lumerical-mcp
+```
+
+Or with custom settings:
+
+```bash
+MCP_PORT=9000 MCP_TRANSPORT=stdio lumerical-mcp
+```
+
+## Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `hello` | Connectivity check |
+| `start_fdtd` / `end_fdtd` | Start/stop FDTD API session |
+| `open_projects` / `fdtd_load_project_tool` | Load `.fsp` project |
+| `save_project` / `fdtd_save_project_tool` | Save project |
+| `set_parameter` | Set object property |
+| `run_simulation` / `fdtd_run_simulation_tool` | Run simulation |
+| `get_transmission` | Get transmission spectrum from monitor |
+| `fdtd_eval_script_tool` | Execute Lumerical script |
+| `fdtd_eval_script_get_tool` | Execute script and return variable |
+| `fdtd_run_script_file_tool` | Run `.lsf`/`.lsfx` script file |
+| `fdtd_get_variable_tool` / `fdtd_put_variable_tool` | Read/write script variables |
+| `fdtd_launch_gui_tool` | Launch Lumerical GUI |
+| `fdtd_command_docs_tool` | Search command documentation |
+
+## Client Usage
+
+```bash
+# Using the test client
+python client_test.py
+
+# Or with custom server address
+MCP_HOST=192.168.1.100 MCP_PORT=9000 python client_test.py
+```
+
+## LLM Client Configuration
+
+### Claude Desktop (`claude_desktop_config.json`)
+
+```json
+{
+  "mcpServers": {
+    "lumerical": {
+      "command": "lumerical-mcp",
+      "env": {
+        "LUMERICAL_ROOT": "D:\\Program Files\\ANSYS Inc\\v251\\Lumerical"
+      }
+    }
+  }
+}
+```
+
+### VS Code / Continue / Other MCP Clients
+
+```json
+{
+  "mcpServers": {
+    "lumerical": {
+      "command": "lumerical-mcp",
+      "args": [],
+      "env": {
+        "LUMERICAL_ROOT": "/opt/lumerical/v251"
+      }
+    }
+  }
+}
+```
+
+## Development
+
+```bash
+pip install -e .[dev]
+ruff check .
+pytest
+```
+
+## License
+
+MIT

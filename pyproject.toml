@@ -1,0 +1,48 @@
+# D:\Files\gitProjects\lumerical-mcp\pyproject.toml
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumerical-mcp"
+version = "0.1.0"
+description = "MCP server for Lumerical FDTD automation"
+readme = "README.md"
+license = "MIT"
+authors = [{name = "Your Name", email = "you@example.com"}]
+maintainers = [{name = "Your Name", email = "you@example.com"}]
+keywords = ["mcp", "lumerical", "fdtd", "photonics", "simulation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "numpy",
+]
+urls = {
+    "Homepage" = "https://github.com/your-org/lumerical-mcp",
+    "Repository" = "https://github.com/your-org/lumerical-mcp",
+    "Issues" = "https://github.com/your-org/lumerical-mcp/issues",
+}
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+lumerical-mcp = "lumerical_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lumerical_mcp*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
