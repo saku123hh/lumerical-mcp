@@ -1,13 +1,26 @@
 Metadata-Version: 2.4
 Name: lumerical-mcp
-Version: 0.1.0
+Version: 0.1.1
 Summary: MCP server for Lumerical FDTD automation
-Author-email: Your Name <you@example.com>
-License: MIT
+Author-email: Saku1234 <lxh875410020@gmail.com>
+Maintainer-email: Saku1234 <lxh875410020@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/saku123hh/lumerical-mcp
+Project-URL: Repository, https://github.com/saku123hh/lumerical-mcp
+Project-URL: Issues, https://github.com/saku123hh/lumerical-mcp/issues
+Keywords: mcp,lumerical,fdtd,photonics,simulation
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Physics
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
-Requires-Dist: mcp>=1.0.0
+Requires-Dist: mcp<2.0.0,>=1.10.0
 Requires-Dist: numpy
+Requires-Dist: packaging
 Provides-Extra: dev
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: ruff; extra == "dev"

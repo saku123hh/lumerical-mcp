@@ -5,17 +5,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lumerical-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server for Lumerical FDTD automation"
 readme = "README.md"
 license = "MIT"
-authors = [{name = "Your Name", email = "you@example.com"}]
-maintainers = [{name = "Your Name", email = "you@example.com"}]
+authors = [{name = "Saku1234", email = "lxh875410020@gmail.com"}]
+maintainers = [{name = "Saku1234", email = "lxh875410020@gmail.com"}]
 keywords = ["mcp", "lumerical", "fdtd", "photonics", "simulation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -24,20 +23,21 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "mcp>=1.0.0",
+    "mcp>=1.10.0,<2.0.0",
     "numpy",
+    "packaging",
 ]
-urls = {
-    "Homepage" = "https://github.com/your-org/lumerical-mcp",
-    "Repository" = "https://github.com/your-org/lumerical-mcp",
-    "Issues" = "https://github.com/your-org/lumerical-mcp/issues",
-}
+
+[project.urls]
+Homepage = "https://github.com/saku123hh/lumerical-mcp"
+Repository = "https://github.com/saku123hh/lumerical-mcp"
+Issues = "https://github.com/saku123hh/lumerical-mcp/issues"
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff"]
 
 [project.scripts]
-lumerical-mcp = "lumerical_mcp.server:main"
+"lumerical-mcp" = "lumerical_mcp.server:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

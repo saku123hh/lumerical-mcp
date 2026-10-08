@@ -27,8 +27,31 @@ for _directory in (cfg.lumerical_api_python, cfg.lumerical_bin):
 
 import lumapi
 
-from mcp.server.mcpserver import MCPServer
+# from mcp.server.mcpserver import MCPServer
+import mcp
+from importlib.metadata import version as get_version
+from packaging.version import parse as parse_version
+# 获取 mcp 版本并做兼容性检查
+try:
+    mcp_ver_str = get_version("mcp")
+    MCP_VERSION = parse_version(mcp_ver_str)
+except Exception:
+    MCP_VERSION = parse_version("0.0.0")
+    logger.warning("无法获取 mcp 版本，跳过版本检查")
 
+if MCP_VERSION >= parse_version("2.0.0"):
+    raise RuntimeError(
+        f"lumerical-mcp 仅支持 mcp 1.x，检测到 mcp {mcp_ver_str}。"
+        "请降级：pip install 'mcp>=1.0.0,<2.0.0'"
+    )
+
+# 根据版本动态导入
+if MCP_VERSION >= parse_version("1.10.0"):
+    from mcp.server.fastmcp import FastMCP as MCPServer
+else:
+    from mcp.server.mcpserver import MCPServer
+
+import mcp
 mcp = MCPServer("lumerical")
 
 fdtd = None
@@ -304,7 +327,14 @@ def main():
     logger.info(f"Starting Lumerical MCP server on {cfg.host}:{cfg.port} ({cfg.transport})")
     logger.info(f"Lumerical root: {cfg.lumerical_root}")
     logger.info(f"Work directory: {cfg.work_dir}")
-    mcp.run(transport=cfg.transport, host=cfg.host, port=cfg.port)
+
+    if cfg.transport != "stdio":
+        os.environ.setdefault("FASTMCP_HOST", cfg.host)
+        os.environ.setdefault("FASTMCP_PORT", str(cfg.port))
+        os.environ.setdefault("MCP_HOST", cfg.host)
+        os.environ.setdefault("MCP_PORT", str(cfg.port))
+
+    mcp.run(transport=cfg.transport)
 
 
 if __name__ == "__main__":
